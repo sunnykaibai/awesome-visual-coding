@@ -1,5 +1,7 @@
 # Awesome Visual Coding
 
+**English** | [简体中文](README.zh-CN.md)
+
 A curated reading list for Visual Coding and Multimodal Code Intelligence: models that understand visual artifacts, generate executable programs, and improve through rendering, execution, and environment feedback.
 
 The list is organized by the technical layer a paper contributes to, rather than by application domain. Web, UI, charts, SVG, CAD, 3D, documents, and animation appear throughout the same seven-layer framework.

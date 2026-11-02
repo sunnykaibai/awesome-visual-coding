@@ -4,19 +4,42 @@
 
 一份面向 Visual Coding 与多模态代码智能的精选阅读清单，关注能够理解视觉内容、生成可执行程序，并通过渲染、执行和环境反馈持续改进的模型。
 
-清单按照论文贡献所属的技术层面组织，而不是按照应用领域划分。Web、UI、图表、SVG、CAD、3D、文档和动画都纳入同一个七层框架。
+## 为什么这样分类
+
+Visual Coding 不是单一的输入—输出任务，因此这份清单采用两个分类维度：
+
+1. **任务方向**回答模型在做什么：**Visual → Code**、**Code → Visual**，或 **WebDev & Coding Agents**。WebDev 单列为系统方向，因为它不仅生成图像或代码产物，还结合应用生成、仓库编辑、执行和迭代修复。
+2. **技术层面**回答能力如何构建：任务与表示、数据、基座模型与预训练、后训练、反馈与奖励、执行环境与 Agent，以及评测。
+
+每项工作在主分类中只设置一个主要位置。近期发布和资源表属于索引，其中的链接可能同时指向主清单里的工作。
 
 ## 目录
 
 - [最新技术报告与发布](#最新技术报告与发布)
-- [WebDev 与 Coding Agent 研究](#webdev-与-coding-agent-研究)
-- [1. 任务与表示](#1-任务与表示)
-- [2. 数据](#2-数据)
-- [3. 基座架构与预训练](#3-基座架构与预训练)
-- [4. 后训练](#4-后训练)
-- [5. 反馈、验证器与奖励模型](#5-反馈验证器与奖励模型)
-- [6. 执行环境与 Agent](#6-执行环境与-agent)
-- [7. 评测](#7-评测)
+- [A. Visual → Code](#a-visual--code)
+  - [A1. 任务与表示](#a1-任务与表示)
+  - [A2. 数据](#a2-数据)
+  - [A3. 基座架构与预训练](#a3-基座架构与预训练)
+  - [A4. 后训练](#a4-后训练)
+  - [A5. 反馈、验证器与奖励模型](#a5-反馈验证器与奖励模型)
+  - [A6. 执行环境与 Agent](#a6-执行环境与-agent)
+  - [A7. 评测](#a7-评测)
+- [B. Code → Visual](#b-code--visual)
+  - [B1. 任务与表示](#b1-任务与表示)
+  - [B2. 数据](#b2-数据)
+  - [B3. 基座架构与预训练](#b3-基座架构与预训练)
+  - [B4. 后训练](#b4-后训练)
+  - [B5. 反馈、验证器与奖励模型](#b5-反馈验证器与奖励模型)
+  - [B6. 执行环境与 Agent](#b6-执行环境与-agent)
+  - [B7. 评测](#b7-评测)
+- [C. WebDev 与 Coding Agents](#c-webdev-与-coding-agents)
+  - [C1. 任务与表示](#c1-任务与表示)
+  - [C2. 数据](#c2-数据)
+  - [C3. 基座架构与预训练](#c3-基座架构与预训练)
+  - [C4. 后训练](#c4-后训练)
+  - [C5. 反馈、验证器与奖励模型](#c5-反馈验证器与奖励模型)
+  - [C6. 执行环境与 Agent](#c6-执行环境与-agent)
+  - [C7. 评测](#c7-评测)
 - [开放数据集与资源](#开放数据集与资源)
 - [工具与框架](#工具与框架)
 - [相关清单](#相关清单)
@@ -28,59 +51,28 @@
 - [MiMo-V2.6: Scaling Reinforcement Learning Towards Self-Improvement](https://arxiv.org/abs/2610.11959) — 2026。涵盖多模态中期训练、混合 Agent 环境、Agent 式评分、异步强化学习和奖励作弊防御。报告开放了强化学习训练动态、环境和框架；MiMo Visual Coding 本身是内部基准。
 - [GLM-5V-Turbo: Toward a Native Foundation Model for Multimodal Agents](https://arxiv.org/abs/2604.26752) — 2026。涵盖模型设计、多模态训练、分层优化、工具使用，以及面向多模态 Coding 和 Agent 的端到端验证。
 - [Seed2.1](https://seed.bytedance.com/zh/seed2_1) — 2026。官方模型卡，涵盖视觉输入、交互式前端生成、代码工程、调试和结果验证。它是模型卡，不是详细的训练报告。
-- [RAP: A Dataset for Paper-to-Poster Generation via Declarative Markup from Human-Crafted Exemplars](https://arxiv.org/abs/2610.23230) — 2026。提供超过 25K 组经过验证的论文—海报—HTML/CSS 三元组、 held-out 基准、PosterRAG，以及 SFT+RL 训练方案。[代码](https://github.com/VincentHancoder/RAP) · [数据](https://huggingface.co/datasets/VincentHancoder/RAP)
+- [RAP: A Dataset for Paper-to-Poster Generation via Declarative Markup from Human-Crafted Exemplars](https://arxiv.org/abs/2610.23230) — 2026。提供超过 25K 组经过验证的论文—海报—HTML/CSS 三元组、留出基准、PosterRAG，以及 SFT+RL 训练方案。[代码](https://github.com/VincentHancoder/RAP) · [数据](https://huggingface.co/datasets/VincentHancoder/RAP)
 - [Widget2Code: From Visual Widgets to UI Code via Multimodal LLMs](https://github.com/Djanghao/widget2code) — CVPR 2026 Highlight。结合组件分解、布局检测、图标检索、WidgetDSL、模式校验、编译和无头浏览器渲染。仓库包含生成与评测工具，并提供基准链接。
 
-## WebDev 与 Coding Agent 研究
+## A. Visual → Code
 
-WebDev 的范围不止于截图转代码，还包括需求理解、全栈与多文件应用、仓库编辑、工具调用、长期项目状态、可执行测试、视觉反馈、调试和回归检查。以下论文按照这些能力组织，并明确区分纯文本输入、视觉反馈和视觉参考输入。
+从截图、设计稿、图像、视频或点云生成可执行、可编辑的程序。典型输出包括 Web 和 App UI、图表、SVG、文档、CAD 和 3D 场景。
 
-### 完整应用与持续演进的项目
+### A1. 任务与表示
 
-- [WebCoder: Scaling General Frontend Development with Artifact-Grounded Agentic Reinforcement Learning](https://arxiv.org/abs/2610.23104) — 2026。Webdev-World 在编辑、执行、浏览器检查和技能调用之间保留项目状态；以产物进展为长时程强化学习分配信用。
-- [EvoWeb: A Benchmark for Coding Agents on Evolving Web Applications](https://arxiv.org/abs/2610.16402) — 2026。包含 32 个应用上的 320 个累积需求，并在真实浏览器中评测新功能、跨需求集成和回归问题。
-- [SWE-WebDevBench: Evaluating Coding Agent Application Platforms as Virtual Software Agencies](https://arxiv.org/abs/2605.04637) — 2026。从产品、工程和运维角色出发，评测应用的创建与修改，包括复杂 SaaS 和 AI 原生任务。
-- [WebGen-Bench](https://arxiv.org/abs/2505.03733) — NeurIPS 2025。根据文本需求生成多文件网站，并执行 647 项测试。它是文本输入基准，不是视觉输入任务。[代码/数据](https://github.com/mnluzimu/WebGen-Bench)
-
-### 视觉参考、交互与迭代修改
-
-- [RefCraft: Benchmarking Visual-Reference-Conditioned Agentic Generation through Web Development](https://arxiv.org/abs/2610.26826) — 2026。结合自然语言指令与一至五个参考页面的截图，要求模型有选择地理解视觉信息，并进行渲染、检查和改进。
-- [InterWebCoder: Learning Interactive Webpage Generation from Executable Tests via Reinforcement Learning](https://arxiv.org/abs/2610.28610) — 2026。从真实交互轨迹合成自包含页面和可执行测试，再通过 SFT 和 GRPO 优化测试通过率与状态级视觉相似度。
-- [MT-Web2Code: Benchmarking Coding Agents on Multi-Turn Regional Reconstruction and Localized Modification](https://arxiv.org/abs/2608.03474) — 2026。测试区域重建和局部修改，同时要求保持未受影响的内容。论文称代码和数据将很快发布，因此这里不将其标记为已经开放。
-- [Video2Code: Generating Interactive Webpages from UI Videos via Action-Aware Revisit](https://arxiv.org/abs/2606.20711) — 2026。重新查看与动作相关的视频片段，以恢复“状态—动作—状态”转换并生成交互式网页。
-- [WebGen-Agent](https://arxiv.org/abs/2509.22644) — ICLR 2026。结合 VLM 截图评分、GUI Agent 功能测试和 Step-GRPO。初始输入是文本需求，截图用于提供反馈。
-- [Rendering-in-the-Loop: An Execution-Driven Agent for Interactive Web Development](https://arxiv.org/abs/2609.02088) — 2026。重放浏览器交互，使用功能和视觉评分进行修复，并构建经过执行验证的训练数据。
-
-### 验证、RLVR 与评测
-
-- [WebGrader: Training LLMs for Web Development with Self-Evolving Programmatic Grader](https://arxiv.org/abs/2608.06474) — 2026。从需求中推导可执行的 Flow Contracts，并沿真实浏览器轨迹收集视觉、DOM、响应和持久状态证据。
-- [WebUIProof: Benchmarking WebUI Code Generators with UI-Agent Execution Harness](https://arxiv.org/abs/2610.02617) — 2026。通过“规划—行动—观察”的 UI Agent 执行框架，提供 219 个任务和约 3,000 项可执行交互测试。
-- [WebCraftBench: Evaluating Web Application Generation from a Software Testing Perspective](https://arxiv.org/abs/2609.15387) — 2026。使用插桩、覆盖率引导探索、状态抽象和独立评分，覆盖 369 项需求和 5,088 条验收标准。
-- [The Verification Horizon: No Silver Bullet for Coding Agent Rewards](https://arxiv.org/abs/2606.26300) — 2026。从可扩展性、真实性和稳健性比较测试、评分细则、用户和 Agent 验证器，并主张验证机制必须与生成器共同演进。
-- [Vision2Web: A Hierarchical Benchmark for Visual Website Development with Agent Verification](https://arxiv.org/abs/2603.26648) — 2026。涵盖静态 UI、交互式多页面前端和长时程全栈开发，包含 193 个任务和 1,255 项测试。[代码/数据](https://github.com/zai-org/Vision2Web)
-
-### 仓库级视觉工程
-
-- [SWE-bench Multimodal](https://arxiv.org/abs/2410.03859) — ICLR 2025。通过补丁和测试，解决真实 JavaScript 仓库中附带截图的 GitHub Issue。[代码/数据](https://github.com/SWE-bench/SWE-bench)
-- [GUIRepair](https://arxiv.org/abs/2506.16136) — ASE 2025。在代码中复现视觉故障，并重新渲染修复后的应用，验证故障是否消失。
-- [MM-IssueLoc](https://arxiv.org/abs/2607.15205) — 2026。在评测多模态仓库中的文件和函数定位时控制图像相关性；仅完成定位并不代表完成完整修复。
-- [1D-Bench](https://arxiv.org/abs/2602.18548) — 2026。使用真实电商设计工作流、含噪中间表示、组件化 React 项目和迭代执行反馈。
-
-## 1. 任务与表示
-
-研究视觉内容如何转化为程序，包括直接代码生成、DOM 与布局树、DSL、组件层级、场景图和可执行中间表示。
+涵盖直接代码生成、DOM 与布局树、DSL、组件层级、场景图和可执行中间表示。
 
 - [Beyond NL2Code: A Structured Survey of Multimodal Code Intelligence](https://arxiv.org/abs/2606.15932) — TMLR 2026。梳理视觉重建、可编辑结构、代码辅助推理和工具使用的任务图谱。
 - [pix2code: Generating Code from a Graphical User Interface Screenshot](https://arxiv.org/abs/1705.07962) — EICS 2018。早期使用 CNN+RNN 将 GUI 截图生成 DSL，面向 Web 和移动界面。[代码](https://github.com/tonybeltramelli/pix2code)
+- [Widget2Code](https://github.com/Djanghao/widget2code) — CVPR 2026 Highlight。使用 WidgetDSL 连接组件分解、布局检测、图标检索、校验、编译和渲染。
 - [StarVector: Generating Scalable Vector Graphics Code from Images and Text](https://arxiv.org/abs/2312.11556) — CVPR 2025。直接生成 SVG，并提出 SVG-Stack 和 SVG-Bench。[代码](https://github.com/joanrod/star-vector)
-- [DeepCAD: A Deep Generative Network for Computer-Aided Design Models](https://arxiv.org/abs/2105.09492) — ICCV 2021。将 CAD 建模历史表示为可学习的命令序列。[代码/数据](https://github.com/rundiwu/DeepCAD)
 - [CAD-Recode: Reverse Engineering CAD Code from Point Clouds](https://arxiv.org/abs/2412.14042) — ICCV 2025。从点云生成可执行、可编辑的 CadQuery 程序。[代码](https://github.com/filaPro/cad-recode)
 - [Chart Specification: Structural Representations for Incentivizing VLM Reasoning in Chart-to-Code Generation](https://arxiv.org/abs/2602.10880) — Neurocomputing 2026。使用结构化图表表示进行监督、过滤和细粒度反馈。
 - [What You See Is What You Get: Observation-Aligned Supervision for Chart-to-Code Generation](https://arxiv.org/abs/2607.04726) — 2026。研究无法从渲染图像中实际恢复的监督目标。
 
-延伸阅读：[Visual Programming](https://arxiv.org/abs/2211.11559)、[ShapeCoder](https://arxiv.org/abs/2305.05661)、[SceneScript](https://arxiv.org/abs/2403.13064)。
+延伸阅读：[SceneScript](https://arxiv.org/abs/2403.13064)。
 
-## 2. 数据
+### A2. 数据
 
 涵盖真实与合成的图像—代码对、渲染验证、多对象对齐、数据过滤、多轮纠错、多样性和数据配比。
 
@@ -92,11 +84,8 @@ WebDev 的范围不止于截图转代码，还包括需求理解、全栈与多�
 - [ChartNet: A Million-Scale, High-Quality Multimodal Dataset for Robust Chart Understanding](https://arxiv.org/abs/2603.27064) — CVPR 2026。在 150 万条样本中对齐绘图代码、渲染图表、数据表、摘要和推理问答。
 - [OmniSVG: A Unified Scalable Vector Graphics Generation Model](https://arxiv.org/abs/2504.06263) — NeurIPS 2025。提出 MMSVG-2M，以及标准化的 SVG 表示和评测。[代码/数据](https://github.com/OmniSVG/OmniSVG)
 - [MathCoder-VL: Bridging Vision and Code for Enhanced Multimodal Mathematical Reasoning](https://arxiv.org/abs/2505.10557) — ACL 2025 Findings。通过模型参与构建的方式生成 ImgCode-8.6M 和 MM-MathInstruct-3M。[代码](https://github.com/mathllm/MathCoder)
-- [CoSyn: Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation](https://arxiv.org/abs/2502.14846) — ACL 2025。从可执行代码生成 40 万张图像和 270 万条指令。[代码](https://github.com/allenai/pixmo-docs)
 
-延伸阅读：[ChartGen](https://arxiv.org/abs/2507.19492)、[CADFS](https://arxiv.org/abs/2605.01925)、[RAP](https://arxiv.org/abs/2610.23230)。
-
-## 3. 基座架构与预训练
+### A3. 基座架构与预训练
 
 涵盖视觉—语言—代码融合、Code LLM 初始化、高分辨率界面、空间定位、长程序、仓库上下文、统一生成与编辑，以及通用能力保持。
 
@@ -111,7 +100,7 @@ WebDev 的范围不止于截图转代码，还包括需求理解、全栈与多�
 
 延伸阅读：[ChartCoder](https://arxiv.org/abs/2501.06598)、[M2-Coder](https://arxiv.org/abs/2507.08719)、[LLM4SVG](https://arxiv.org/abs/2412.11102)。
 
-## 4. 后训练
+### A4. 后训练
 
 涵盖 SFT、拒绝采样与过滤策略、偏好优化、在线强化学习、多轮纠错，以及将外部反馈内化到模型中。
 
@@ -123,52 +112,142 @@ WebDev 的范围不止于截图转代码，还包括需求理解、全栈与多�
 - [ChartMaster: Advancing Chart-to-Code Generation with Real-World Charts and Chart Similarity Reinforcement Learning](https://arxiv.org/abs/2508.17608) — 2025。将图表属性和视觉特征相似度结合为奖励。[代码](https://github.com/WentaoTan/ChartMaster)
 - [cadrille: Multi-modal CAD Reconstruction with Reinforcement Learning](https://arxiv.org/abs/2505.22914) — ICLR 2026 Oral。先进行 SFT，再在点云、图像和文本输入上应用在线程序化反馈。[代码](https://github.com/col14m/cadrille)
 
-延伸阅读：[Text-to-CAD Generation Through Infusing Visual Feedback](https://arxiv.org/abs/2501.19054)、[Thyme](https://arxiv.org/abs/2508.11630)、[PrismaCoder](https://arxiv.org/abs/2610.20538)。
+延伸阅读：[Thyme](https://arxiv.org/abs/2508.11630)。
 
-## 5. 反馈、验证器与奖励模型
+### A5. 反馈、验证器与奖励模型
 
-涵盖可执行与结构化奖励、视觉相似度、功能测试、VLM 评价模型、学习型奖励模型、过程监督，以及对评分器自身的评测。
+涵盖可执行与结构化奖励、视觉相似度、VLM 评价模型、学习型奖励模型，以及对评分器自身的评测。
 
 - [Visual-ERM: Reward Modeling for Visual Equivalence](https://arxiv.org/abs/2603.13224) — 2026。训练细粒度视觉等价奖励模型，并提出 VC-RewardBench。[代码](https://github.com/InternLM/Visual-ERM)
 - [UniCoder: Unified Visual-to-Code Generation via Symbolic Rewards and Reference-Guided Code Optimization](https://arxiv.org/abs/2606.31732) — 2026。将生成代码解析为符号化视觉属性，用于元素级奖励，并采用参考引导探索。
-- [WebGen-Agent: Enhancing Interactive Website Generation with Multi-Level Feedback and Step-Level Reinforcement Learning](https://arxiv.org/abs/2509.22644) — ICLR 2026。结合 VLM 截图评分和 GUI Agent 功能测试进行步骤级强化学习。[代码](https://github.com/mnluzimu/WebGen-Agent)
-- [ReLook: Vision-Grounded RL with a Multimodal LLM Critic for Agentic Web Coding](https://arxiv.org/abs/2510.11498) — ACL 2026。使用多模态 LLM 评价模型进行生成、诊断和修改，并显式处理渲染失败和没有改进的编辑。
-- [PrismaCoder](https://arxiv.org/abs/2610.20538) — 2026。使用同一套分解式评分细则过滤监督数据，并为强化学习候选结果提供奖励。
 - [ChartJudgeBench: Evaluating LMM Judges for Chart-to-Code Generation](https://arxiv.org/abs/2609.24210) — 2026。衡量 LMM 评价模型的位置偏差、过度接受和其他失效模式。
-- [SVG-Score: Human-Aligned Evaluation of Text-to-SVG Generation](https://arxiv.org/abs/2609.03806) — 2026。使用受控扰动，检验 CLIPScore 和 VLM 评价模型能否发现颜色、数量和空间错误。
 
 延伸阅读：[MoVer](https://arxiv.org/abs/2502.13372)、[SimuScene](https://arxiv.org/abs/2602.10840)、[CodeV](https://arxiv.org/abs/2511.19661)。
 
-## 6. 执行环境与 Agent
+### A6. 执行环境与 Agent
 
-涵盖编译器、解释器、渲染器、浏览器、IDE 和设计软件，以及执行、观察、搜索、修复、工具生成和轨迹采集。
+涵盖编译器、渲染器、设计软件，以及能够观察、搜索、修复和采集轨迹的多模态 Agent。
 
-- [MatPlotAgent: Method and Evaluation for LLM-Based Agentic Scientific Data Visualization](https://arxiv.org/abs/2402.11453) — ACL 2024 Findings。结合查询理解、迭代调试和渲染图像反馈。[代码/数据](https://github.com/thunlp/MatPlotAgent)
 - [DeTikZify: Synthesizing Graphics Programs for Scientific Figures and Sketches with TikZ](https://arxiv.org/abs/2405.15306) — NeurIPS 2024。在推理时使用 MCTS 搜索并改进 TikZ 程序。[代码/数据](https://github.com/potamides/DeTikZify)
-- [SceneCraft: An LLM Agent for Synthesizing 3D Scenes as Blender Code](https://arxiv.org/abs/2403.01248) — ICML 2024。结合场景图、布局约束、渲染检查和可复用函数库。
 - [ScreenCoder: Advancing Visual-to-Code Generation for Front-End Automation via Modular Multimodal Agents](https://arxiv.org/abs/2507.22827) — 2025。将定位、规划和生成 Agent 同时用作 Coding 系统和数据引擎，随后进行 SFT 和 GRPO。[代码/数据](https://github.com/leigest519/ScreenCoder)
 - [WebVIA: A Web-based Vision-Language Agentic Framework for Interactive and Verifiable UI-to-Code Generation](https://arxiv.org/abs/2511.06251) — 2025。在生成和验证交互代码之前探索多个 UI 状态。[代码](https://github.com/zheny2751-dotcom/WebVIA)
-- [Rendering-in-the-Loop: An Execution-Driven Agent for Interactive Web Development](https://arxiv.org/abs/2609.02088) — 2026。重放浏览器交互，结合功能与视觉反馈，并将经过执行验证的结果复用于训练。
-- [Programming with Pixels: Can Computer-Use Agents do Software Engineering?](https://arxiv.org/abs/2502.18525) — ICLR 2026。评测仅使用截图、键盘和鼠标操作 VSCode 的 Agent。[项目/数据](https://programmingwithpixels.com)
-- [PlayCoder: Making LLM-Generated GUI Code Playable](https://arxiv.org/abs/2604.19742) — FSE 2026。使用自动试玩器和 Play@k 评测功能正确性，而不只检查能否编译。[代码](https://github.com/Tencent/PlayCoder)
 
-延伸阅读：[GUIRepair](https://arxiv.org/abs/2506.16136)、[HTMLCure](https://arxiv.org/abs/2605.26807)、[PyVision](https://arxiv.org/abs/2507.07998)。
+延伸阅读：[HTMLCure](https://arxiv.org/abs/2605.26807)、[PyVision](https://arxiv.org/abs/2507.07998)。
 
-## 7. 评测
+### A7. 评测
 
-涵盖视觉必要性、感知、结构、代码正确性、视觉还原度、功能性、时序行为、仓库级表现、数据泄漏和指标可靠性。
+涵盖视觉必要性、感知、结构、代码正确性、视觉还原度、时序行为、数据泄漏和指标可靠性。
 
 - [Design2Code: Benchmarking Multimodal Code Generation for Automated Front-End Engineering](https://arxiv.org/abs/2403.03163) — NAACL 2025。提供 484 个真实网页和 Design2Code-HARD，并使用文本、位置、颜色、布局和视觉指标。[代码/数据](https://github.com/NoviScl/Design2Code)
 - [ChartMimic: Evaluating LMM's Cross-Modal Reasoning Capability via Chart-to-Code Generation](https://arxiv.org/abs/2406.09961) — ICLR 2025。区分直接复现和定制复现，同时评测代码和渲染结果。[代码/数据](https://github.com/ChartMimic/ChartMimic)
 - [HumanEval-V: Benchmarking High-Level Visual Reasoning with Complex Diagrams in Coding Tasks](https://arxiv.org/abs/2410.12381) — 2024。通过移除图像和使用人工撰写的图像描述，区分视觉理解能力与 Coding 能力。[代码/数据](https://github.com/HumanEval-V/HumanEval-V-Benchmark)
 - [Image2Struct: Benchmarking Structure Extraction for Vision-Language Models](https://arxiv.org/abs/2410.22456) — NeurIPS 2024 Datasets and Benchmarks。重新渲染 HTML/CSS、LaTeX 和 LilyPond 输出，并使用新上传内容减少数据泄漏。[代码/数据](https://github.com/stanford-crfm/image2struct)
-- [SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains?](https://arxiv.org/abs/2410.03859) — ICLR 2025。包含来自 17 个 JavaScript 仓库的 617 个视觉 Issue 修复实例。[代码/数据](https://github.com/SWE-bench/SWE-bench)
-- [WebGen-Bench: Evaluating LLMs on Generating Interactive and Functional Websites from Scratch](https://arxiv.org/abs/2505.03733) — NeurIPS 2025。使用 Web 导航 Agent 对多文件网站执行 647 项测试；输入是文本需求，不是视觉参考。[代码/数据](https://github.com/mnluzimu/WebGen-Bench)
 - [IWR-Bench: Can LVLMs Reconstruct Interactive Webpages from a User Interaction Video?](https://arxiv.org/abs/2509.24709) — ICLR 2026。在 113 个任务和 1,001 个动作上分别评测视觉还原度和功能正确性。[代码/数据](https://github.com/SIGMME/IWR-Bench)
 - [Pattern over Pixels: Measuring Pattern Completion Bias in Multimodal Code Generation](https://arxiv.org/abs/2608.03691) — ASE 2026。使用受控截图扰动，检测模型是否依赖重复模式推断而非读取像素。
+
+延伸阅读：[Vision2Code](https://arxiv.org/abs/2605.11307)、[Animation2Code](https://arxiv.org/abs/2606.28593)。
+
+## B. Code → Visual
+
+使用代码作为可编辑、可执行的表示来生成视觉产物。输入可以是文本、数据、文档或部分程序，输出则渲染为图表、矢量图、海报、CAD 模型、3D 场景或交互式视觉内容。
+
+### B1. 任务与表示
+
+涵盖程序化视觉生成、程序化建模、声明式图形和可编辑场景表示。
+
+- [DeepCAD: A Deep Generative Network for Computer-Aided Design Models](https://arxiv.org/abs/2105.09492) — ICCV 2021。将 CAD 建模历史表示为可学习的命令序列。[代码/数据](https://github.com/rundiwu/DeepCAD)
+
+延伸阅读：[Visual Programming](https://arxiv.org/abs/2211.11559)、[ShapeCoder](https://arxiv.org/abs/2305.05661)。
+
+### B2. 数据
+
+涵盖程序与渲染视觉结果、源文档、合成指令的配对数据，以及基于执行的验证。
+
+- [RAP: A Dataset for Paper-to-Poster Generation via Declarative Markup from Human-Crafted Exemplars](https://arxiv.org/abs/2610.23230) — 2026。提供超过 25K 组经过验证的论文—海报—HTML/CSS 三元组、PosterRAG，以及 SFT+RL 训练方案。[代码](https://github.com/VincentHancoder/RAP) · [数据](https://huggingface.co/datasets/VincentHancoder/RAP)
+- [CoSyn: Scaling Text-Rich Image Understanding via Code-Guided Synthetic Multimodal Data Generation](https://arxiv.org/abs/2502.14846) — ACL 2025。从可执行代码生成 40 万张图像和 270 万条指令。[代码](https://github.com/allenai/pixmo-docs)
+
+延伸阅读：[ChartGen](https://arxiv.org/abs/2507.19492)、[CADFS](https://arxiv.org/abs/2605.01925)。
+
+### B3. 基座架构与预训练
+
+通用视觉—程序基座模型统一列在 [A3](#a3-基座架构与预训练)，其中包括与该方向相关的代码—渲染对齐，以及 SVG、图表和前端生成。
+
+### B4. 后训练
+
+- [Text-to-CAD Generation Through Infusing Visual Feedback](https://arxiv.org/abs/2501.19054) — 2025。使用 CAD 渲染反馈改进文本条件下的 CAD 程序生成。
+
+### B5. 反馈、验证器与奖励模型
+
+- [SVG-Score: Human-Aligned Evaluation of Text-to-SVG Generation](https://arxiv.org/abs/2609.03806) — 2026。使用受控扰动，检验 CLIPScore 和 VLM 评价模型能否发现颜色、数量和空间错误。
+
+### B6. 执行环境与 Agent
+
+- [MatPlotAgent: Method and Evaluation for LLM-Based Agentic Scientific Data Visualization](https://arxiv.org/abs/2402.11453) — ACL 2024 Findings。结合查询理解、迭代调试和渲染图像反馈。[代码/数据](https://github.com/thunlp/MatPlotAgent)
+- [SceneCraft: An LLM Agent for Synthesizing 3D Scenes as Blender Code](https://arxiv.org/abs/2403.01248) — ICML 2024。结合场景图、布局约束、渲染检查和可复用函数库。
+- [PlayCoder: Making LLM-Generated GUI Code Playable](https://arxiv.org/abs/2604.19742) — FSE 2026。使用自动试玩器和 Play@k 评测功能正确性，而不只检查能否编译。[代码](https://github.com/Tencent/PlayCoder)
+
+### B7. 评测
+
 - [ArtifactsBench: Bridging the Visual-Interactive Gap in LLM Code Generation Evaluation](https://arxiv.org/abs/2507.04952) — 2025。使用多时间点截图、源代码、评分细则和人类偏好比较，评测 1,825 个交互式产物。[代码/数据](https://github.com/Tencent-Hunyuan/ArtifactsBenchmark)
 
-延伸阅读：[Vision2Code](https://arxiv.org/abs/2605.11307)、[Animation2Code](https://arxiv.org/abs/2606.28593)、[ChartJudgeBench](https://arxiv.org/abs/2609.24210)、[SVG-Score](https://arxiv.org/abs/2609.03806)。
+## C. WebDev 与 Coding Agents
+
+通过需求理解、视觉参考、仓库编辑、工具调用、持久项目状态、可执行测试、视觉检查、调试和回归检查，构建并修改可运行的应用。初始输入可以是文本或视觉内容；仅将截图用于反馈，并不意味着任务属于视觉输入生成。
+
+### C1. 任务与表示
+
+涵盖完整应用、视觉参考条件下的开发、多轮编辑、交互状态和组件化项目。
+
+- [RefCraft: Benchmarking Visual-Reference-Conditioned Agentic Generation through Web Development](https://arxiv.org/abs/2610.26826) — 2026。结合自然语言指令与一至五个参考页面的截图，要求模型有选择地理解视觉信息，并进行渲染、检查和改进。
+- [MT-Web2Code: Benchmarking Coding Agents on Multi-Turn Regional Reconstruction and Localized Modification](https://arxiv.org/abs/2608.03474) — 2026。测试区域重建和局部修改，同时要求保持未受影响的内容。论文称代码和数据将很快发布，因此这里不将其标记为已经开放。
+- [Video2Code: Generating Interactive Webpages from UI Videos via Action-Aware Revisit](https://arxiv.org/abs/2606.20711) — 2026。重新查看与动作相关的视频片段，以恢复“状态—动作—状态”转换并生成交互式网页。
+- [1D-Bench](https://arxiv.org/abs/2602.18548) — 2026。使用真实电商设计工作流、含噪中间表示、组件化 React 项目和迭代执行反馈。
+
+### C2. 数据
+
+涵盖交互轨迹、可执行测试、项目指令和经过执行验证的编辑数据。
+
+- [InterWebCoder: Learning Interactive Webpage Generation from Executable Tests via Reinforcement Learning](https://arxiv.org/abs/2610.28610) — 2026。从真实交互轨迹合成自包含页面和可执行测试，再通过 SFT 和 GRPO 优化测试通过率与状态级视觉相似度。
+- [WebGen-Bench](https://arxiv.org/abs/2505.03733) — NeurIPS 2025。提供包含 6,667 条训练指令的 WebGen-Instruct，并使用 647 项测试评测生成的多文件网站。输入是文本需求，不是视觉参考。[代码/数据](https://github.com/mnluzimu/WebGen-Bench)
+
+### C3. 基座架构与预训练
+
+连接视觉输入、前端生成、仓库上下文和 Agent 的基座报告统一列在 [A3](#a3-基座架构与预训练)，避免在每个应用方向下重复通用模型报告。
+
+### C4. 后训练
+
+涵盖真实 Web 环境中的 Agent 式强化学习、步骤级反馈和评价模型引导的修改。
+
+- [WebCoder: Scaling General Frontend Development with Artifact-Grounded Agentic Reinforcement Learning](https://arxiv.org/abs/2610.23104) — 2026。Webdev-World 在编辑、执行、浏览器检查和技能调用之间保留项目状态；以产物进展为长时程强化学习分配信用。
+- [WebGen-Agent: Enhancing Interactive Website Generation with Multi-Level Feedback and Step-Level Reinforcement Learning](https://arxiv.org/abs/2509.22644) — ICLR 2026。结合 VLM 截图评分和 GUI Agent 功能测试进行步骤级强化学习。初始输入是文本需求，截图用于提供反馈。[代码](https://github.com/mnluzimu/WebGen-Agent)
+- [ReLook: Vision-Grounded RL with a Multimodal LLM Critic for Agentic Web Coding](https://arxiv.org/abs/2510.11498) — ACL 2026。使用多模态 LLM 评价模型进行生成、诊断和修改，并显式处理渲染失败和没有改进的编辑。
+
+### C5. 反馈、验证器与奖励模型
+
+涵盖功能测试、DOM 与持久状态证据、视觉反馈、程序化评分器和验证器设计。
+
+- [WebGrader: Training LLMs for Web Development with Self-Evolving Programmatic Grader](https://arxiv.org/abs/2608.06474) — 2026。从需求中推导可执行的 Flow Contracts，并沿真实浏览器轨迹收集视觉、DOM、响应和持久状态证据。
+- [The Verification Horizon: No Silver Bullet for Coding Agent Rewards](https://arxiv.org/abs/2606.26300) — 2026。从可扩展性、真实性和稳健性比较测试、评分细则、用户和 Agent 验证器，并主张验证机制必须与生成器共同演进。
+
+### C6. 执行环境与 Agent
+
+涵盖浏览器、IDE、终端、交互重放、执行驱动的修复和仓库级修改。
+
+- [Rendering-in-the-Loop: An Execution-Driven Agent for Interactive Web Development](https://arxiv.org/abs/2609.02088) — 2026。重放浏览器交互，结合功能与视觉反馈，并将经过执行验证的结果复用于训练。
+- [GUIRepair](https://arxiv.org/abs/2506.16136) — ASE 2025。在代码中复现视觉故障，并重新渲染修复后的应用，验证故障是否消失。
+- [Programming with Pixels: Can Computer-Use Agents do Software Engineering?](https://arxiv.org/abs/2502.18525) — ICLR 2026。评测仅使用截图、键盘和鼠标操作 VSCode 的 Agent。[项目/数据](https://programmingwithpixels.com)
+
+### C7. 评测
+
+涵盖应用功能、交互、持续变化的需求、回归问题、仓库级修复和 Agent 可靠性。
+
+- [EvoWeb: A Benchmark for Coding Agents on Evolving Web Applications](https://arxiv.org/abs/2610.16402) — 2026。包含 32 个应用上的 320 个累积需求，并在真实浏览器中评测新功能、跨需求集成和回归问题。
+- [SWE-WebDevBench: Evaluating Coding Agent Application Platforms as Virtual Software Agencies](https://arxiv.org/abs/2605.04637) — 2026。从产品、工程和运维角色出发，评测应用的创建与修改，包括复杂 SaaS 和 AI 原生任务。
+- [WebUIProof: Benchmarking WebUI Code Generators with UI-Agent Execution Harness](https://arxiv.org/abs/2610.02617) — 2026。通过“规划—行动—观察”的 UI Agent 执行框架，提供 219 个任务和约 3,000 项可执行交互测试。
+- [WebCraftBench: Evaluating Web Application Generation from a Software Testing Perspective](https://arxiv.org/abs/2609.15387) — 2026。使用插桩、覆盖率引导探索、状态抽象和独立评分，覆盖 369 项需求和 5,088 条验收标准。
+- [Vision2Web: A Hierarchical Benchmark for Visual Website Development with Agent Verification](https://arxiv.org/abs/2603.26648) — 2026。涵盖静态 UI、交互式多页面前端和长时程全栈开发，包含 193 个任务和 1,255 项测试。[代码/数据](https://github.com/zai-org/Vision2Web)
+- [SWE-bench Multimodal: Do AI Systems Generalize to Visual Software Domains?](https://arxiv.org/abs/2410.03859) — ICLR 2025。包含来自 17 个 JavaScript 仓库的 617 个视觉 Issue 修复实例。[代码/数据](https://github.com/SWE-bench/SWE-bench)
+- [MM-IssueLoc](https://arxiv.org/abs/2607.15205) — 2026。在评测多模态仓库中的文件和函数定位时控制图像相关性；仅完成定位并不代表完成完整修复。
 
 ## 开放数据集与资源
 
@@ -201,4 +280,4 @@ WebDev 的范围不止于截图转代码，还包括需求理解、全栈与多�
 
 ## 贡献指南
 
-欢迎通过 Issue 或 Pull Request 提出建议，并保持每个条目简洁。请附上主要论文或项目链接、相关技术层面，以及可用时的代码或数据直链。明确区分开放权重、开放代码、开放训练数据、仅用于评测的数据和内部基准。
+欢迎通过 Issue 或 Pull Request 提出建议，并保持每个条目简洁。请附上主要论文或项目链接、一个主要任务方向和技术层面，以及可用时的代码或数据直链。明确区分开放权重、开放代码、开放训练数据、仅用于评测的数据和内部基准。

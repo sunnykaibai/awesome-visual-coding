@@ -7,6 +7,7 @@ The list is organized by the technical layer a paper contributes to, rather than
 ## Contents
 
 - [Latest Technical Reports and Releases](#latest-technical-reports-and-releases)
+- [WebDev and Coding Agent Research](#webdev-and-coding-agent-research)
 - [1. Tasks and Representations](#1-tasks-and-representations)
 - [2. Data](#2-data)
 - [3. Foundation Architectures and Pretraining](#3-foundation-architectures-and-pretraining)
@@ -27,6 +28,41 @@ The list is organized by the technical layer a paper contributes to, rather than
 - [Seed2.1](https://seed.bytedance.com/zh/seed2_1) — 2026. Official model card covering visual inputs, interactive frontend generation, code engineering, debugging, and result verification. It is a model card rather than a detailed training report.
 - [RAP: A Dataset for Paper-to-Poster Generation via Declarative Markup from Human-Crafted Exemplars](https://arxiv.org/abs/2610.23230) — 2026. Provides 25K+ verified paper–poster–HTML/CSS triplets, a held-out benchmark, PosterRAG, and an SFT+RL recipe. [Code](https://github.com/VincentHancoder/RAP) · [Data](https://huggingface.co/datasets/VincentHancoder/RAP)
 - [Widget2Code: From Visual Widgets to UI Code via Multimodal LLMs](https://github.com/Djanghao/widget2code) — CVPR 2026 Highlight. Combines component decomposition, layout detection, icon retrieval, WidgetDSL, schema validation, compilation, and headless-browser rendering. The repository includes generation and evaluation tools and a link to the benchmark.
+
+## WebDev and Coding Agent Research
+
+WebDev is broader than screenshot-to-code: it includes requirement interpretation, full-stack and multi-file applications, repository editing, tool use, long-lived project state, executable tests, visual feedback, debugging, and regression checks. The following papers are organized by those capabilities. Text-only inputs and visual feedback are explicitly distinguished from visual-reference inputs.
+
+### Complete applications and evolving projects
+
+- [WebCoder: Scaling General Frontend Development with Artifact-Grounded Agentic Reinforcement Learning](https://arxiv.org/abs/2610.23104) — 2026. Webdev-World preserves project state across editing, execution, browser inspection, and skill use; artifact progress provides credit assignment for long-horizon RL.
+- [EvoWeb: A Benchmark for Coding Agents on Evolving Web Applications](https://arxiv.org/abs/2610.16402) — 2026. Contains 320 cumulative requests over 32 apps and evaluates new features, cross-request integration, and regressions in a live browser.
+- [SWE-WebDevBench: Evaluating Coding Agent Application Platforms as Virtual Software Agencies](https://arxiv.org/abs/2605.04637) — 2026. Evaluates application creation and modification across product, engineering, and operations roles, including complex SaaS and AI-native tasks.
+- [WebGen-Bench](https://arxiv.org/abs/2505.03733) — NeurIPS 2025. Generates multi-file websites from textual requirements and executes 647 tests. It is a text-input benchmark, not a visual-input task. [Code/Data](https://github.com/mnluzimu/WebGen-Bench)
+
+### Visual references, interaction, and iterative modification
+
+- [RefCraft: Benchmarking Visual-Reference-Conditioned Agentic Generation through Web Development](https://arxiv.org/abs/2610.26826) — 2026. Combines natural-language instructions with screenshots from one to five reference pages and requires selective visual interpretation, rendering, inspection, and refinement.
+- [InterWebCoder: Learning Interactive Webpage Generation from Executable Tests via Reinforcement Learning](https://arxiv.org/abs/2610.28610) — 2026. Synthesizes self-contained pages and executable tests from real interaction trajectories, then optimizes test pass rates and state-level visual similarity with SFT and GRPO.
+- [MT-Web2Code: Benchmarking Coding Agents on Multi-Turn Regional Reconstruction and Localized Modification](https://arxiv.org/abs/2608.03474) — 2026. Tests regional reconstruction and localized edits while preserving unaffected content. The paper states that code and data will be released soon; they are not marked as available here.
+- [Video2Code: Generating Interactive Webpages from UI Videos via Action-Aware Revisit](https://arxiv.org/abs/2606.20711) — 2026. Revisits action-relevant video segments to recover state–action–state transitions and generate interactive webpages.
+- [WebGen-Agent](https://arxiv.org/abs/2509.22644) — ICLR 2026. Combines VLM screenshot scores with GUI-agent functional tests and Step-GRPO. Its initial inputs are textual requirements; screenshots provide feedback.
+- [Rendering-in-the-Loop: An Execution-Driven Agent for Interactive Web Development](https://arxiv.org/abs/2609.02088) — 2026. Replays browser interactions and uses functional and visual scores for repair and execution-verified training data.
+
+### Verification, RLVR, and evaluation
+
+- [WebGrader: Training LLMs for Web Development with Self-Evolving Programmatic Grader](https://arxiv.org/abs/2608.06474) — 2026. Derives executable Flow Contracts from requirements and collects visual, DOM, response, and persistent-state evidence along live browser trajectories.
+- [WebUIProof: Benchmarking WebUI Code Generators with UI-Agent Execution Harness](https://arxiv.org/abs/2610.02617) — 2026. Provides 219 tasks and approximately 3,000 executable interaction tests using a plan–act–observe UI-agent harness.
+- [WebCraftBench: Evaluating Web Application Generation from a Software Testing Perspective](https://arxiv.org/abs/2609.15387) — 2026. Uses instrumentation, coverage-guided exploration, state abstraction, and independent scoring across 369 requirements and 5,088 acceptance criteria.
+- [The Verification Horizon: No Silver Bullet for Coding Agent Rewards](https://arxiv.org/abs/2606.26300) — 2026. Compares test, rubric, user, and agent verifiers across scalability, faithfulness, and robustness; argues that verification must co-evolve with the generator.
+- [Vision2Web: A Hierarchical Benchmark for Visual Website Development with Agent Verification](https://arxiv.org/abs/2603.26648) — 2026. Covers static UI, interactive multi-page frontends, and long-horizon full-stack development with 193 tasks and 1,255 tests. [Code/Data](https://github.com/zai-org/Vision2Web)
+
+### Repository-level visual engineering
+
+- [SWE-bench Multimodal](https://arxiv.org/abs/2410.03859) — ICLR 2025. Resolves screenshot-bearing GitHub issues in real JavaScript repositories with patches and tests. [Code/Data](https://github.com/SWE-bench/SWE-bench)
+- [GUIRepair](https://arxiv.org/abs/2506.16136) — ASE 2025. Reproduces visual symptoms in code and re-renders patched applications to verify that the symptoms disappear.
+- [MM-IssueLoc](https://arxiv.org/abs/2607.15205) — 2026. Controls image relevance when evaluating file and function localization in multimodal repositories; localization alone does not demonstrate complete repair.
+- [1D-Bench](https://arxiv.org/abs/2602.18548) — 2026. Uses real e-commerce design workflows, noisy intermediate representations, component-structured React projects, and iterative execution feedback.
 
 ## 1. Tasks and Representations
 
